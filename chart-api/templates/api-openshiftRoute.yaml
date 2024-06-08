@@ -1,0 +1,21 @@
+{{ if eq .Values.environment "openshift" }}
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: schoolapp-frontend
+  namespace: schoolapp
+  labels:
+    app.kubernetes.io/instance: schoolapp
+spec:
+  host: schoolapp-schoolapp.apps-crc.testing
+  to:
+    kind: Service
+    name: frontend
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Allow
+  wildcardPolicy: None
+{{ end }}
